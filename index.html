@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="vi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng 20/10 - Gửi Chị Tâm Yêu Quý</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Playfair Display & Be Vietnam Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: '#FFF0F3',
+                        softPink: '#FFD1DC',
+                        roseGold: '#D4AF37',
+                        warmCream: '#FFFDF9',
+                        deepRose: '#E06D83',
+                    },
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: linear-gradient(135deg, #FFFDF9 0%, #FFF0F3 50%, #FFE4E9 100%);
+            min-height: 100vh;
+        }
+        .gift-box-shadow {
+            box-shadow: 0 20px 25px -5px rgba(224, 109, 131, 0.2), 0 10px 10px -5px rgba(224, 109, 131, 0.1);
+        }
+        /* Custom floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 2.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="text-gray-700 flex flex-col min-h-full selection:bg-softPink selection:text-deepRose">
+
+    <!-- MÀN HÌNH MỞ ĐẦU (OPENING SCREEN) -->
+    <div id="opening-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-warmCream via-pastelPink to-softPink px-4 transition-opacity duration-700">
+        <div class="text-center max-w-md mx-auto p-6 bg-white/80 backdrop-blur-md rounded-3xl gift-box-shadow border border-pink-100 animate-float">
+            <!-- Icon Hộp Quà 3D Dễ Thương -->
+            <div id="gift-trigger" class="cursor-pointer group inline-block mb-6 relative">
+                <div class="absolute -inset-2 bg-gradient-to-r from-roseGold to-deepRose rounded-full blur opacity-40 group-hover:opacity-100 transition duration-500 animate-pulse-slow"></div>
+                <div class="relative w-32 h-32 mx-auto bg-gradient-to-tr from-pink-400 to-deepRose rounded-2xl flex items-center justify-center shadow-xl transform transition duration-300 group-hover:scale-110">
+                    <i class="fa-solid fa-gift text-white text-6xl drop-shadow-md"></i>
+                    <!-- Nơ ruy băng trang trí -->
+                    <div class="absolute -top-3 w-12 h-6 bg-roseGold rounded-full border border-white flex items-center justify-center shadow">
+                        <i class="fa-solid fa-heart text-white text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="font-serif text-2xl sm:text-3xl font-bold text-gray-800 mb-3">
+                Gửi chị Tâm 🌸
+            </h1>
+            <p class="text-gray-600 text-sm sm:text-base mb-6">
+                Có một bất ngờ nho nhỏ vô cùng đặc biệt dành riêng cho chị nhân ngày 20/10 nè!
+            </p>
+            <button onclick="openGift()" class="w-full py-3.5 px-6 bg-gradient-to-r from-deepRose to-pink-500 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 active:translate-y-0 transition duration-300 flex items-center justify-center gap-2 group">
+                <span>Mở hộp quà ngay</span>
+                <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition duration-300"></i>
+            </button>
+        </div>
+        <p class="text-xs text-gray-400 mt-6 tracking-wide">Món quà từ đứa em trai "cute" nhất hệ mặt trời ✨</p>
+    </div>
+
+    <!-- GIAO DIỆN CHÍNH (MAIN INTERFACE) -->
+    <div id="main-content" class="hidden opacity-0 transition-opacity duration-1000 flex-grow flex flex-col">
+        <!-- Header -->
+        <header class="py-6 px-4 text-center bg-white/40 backdrop-blur-sm border-b border-pink-100/60 sticky top-0 z-40">
+            <div class="max-w-4xl mx-auto flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-full bg-deepRose text-white flex items-center justify-center text-sm font-bold shadow-sm">T</span>
+                    <span class="font-serif font-bold text-gray-800 text-lg">Chị Tâm's Day</span>
+                </div>
+                <div class="flex items-center gap-2 text-xs sm:text-sm bg-pink-100/70 text-deepRose px-3 py-1.5 rounded-full font-medium">
+                    <i class="fa-solid fa-calendar-heart"></i>
+                    <span>20/10 Phụ Nữ Việt Nam</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 sm:py-12 flex flex-col gap-10">
+            
+            <!-- Hero Banner Section -->
+            <section class="text-center bg-white/70 backdrop-blur-md rounded-3xl p-8 sm:p-12 gift-box-shadow border border-pink-100 relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-pink-200/40 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-roseGold/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                <div class="inline-block p-3 bg-pink-50 text-deepRose rounded-2xl mb-4 text-2xl shadow-inner">
+                    <i class="fa-solid fa-crown text-roseGold"></i>
+                </div>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-gray-800 mb-4 tracking-tight">
+                    Chúc Mừng Ngày 20/10 <br class="hidden sm:block"/><span class="text-transparent bg-clip-text bg-gradient-to-r from-deepRose to-pink-500">Chị Gái Tâm Yêu Quý!</span>
+                </h2>
+                <p class="text-gray-600 max-w-xl mx-auto text-base sm:text-lg font-light leading-relaxed">
+                    Chúc chị ngày Phụ nữ Việt Nam thật hạnh phúc, luôn rạng rỡ, xinh đẹp và lúc nào cũng cười tươi như hoa nhé!
+                </p>
+            </section>
+
+            <!-- Khu Vực Lời Chúc (Typewriter Letter) -->
+            <section class="bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-10 gift-box-shadow border border-pink-100 relative">
+                <div class="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                    <div class="w-10 h-10 rounded-xl bg-pink-100 text-deepRose flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif font-bold text-xl text-gray-800">Tâm Thư Từ Em Trai</h3>
+                        <p class="text-xs text-gray-400">Gửi người chị tuyệt vời nhất nhà</p>
+                    </div>
+                </div>
+
+                <!-- Typewriter Container -->
+                <div class="min-h-[160px] sm:min-h-[140px] bg-gradient-to-br from-warmCream to-pink-50/50 p-6 rounded-2xl border border-pink-100/60 relative">
+                    <div class="absolute top-3 right-4 text-pink-200 text-2xl">
+                        <i class="fa-solid fa-quote-right"></i>
+                    </div>
+                    <div id="typewriter-text" class="text-gray-700 text-base sm:text-lg leading-relaxed font-normal whitespace-pre-line"></div>
+                    <span id="cursor" class="inline-block w-2 h-5 bg-deepRose ml-1 animate-pulse align-middle"></span>
+                </div>
+            </section>
+
+            <!-- Khu Vực Nút Tương Tác Vui (Fun Interactive Compliments) -->
+            <section class="bg-gradient-to-r from-pink-500/10 via-deepRose/10 to-roseGold/10 backdrop-blur-md rounded-3xl p-6 sm:p-10 border border-pink-200 text-center">
+                <div class="max-w-xl mx-auto">
+                    <span class="inline-block px-3 py-1 bg-white text-deepRose rounded-full text-xs font-semibold uppercase tracking-wider mb-3 shadow-sm">
+                        Góc Giải Trí 20/10
+                    </span>
+                    <h3 class="font-serif font-bold text-2xl sm:text-3xl text-gray-800 mb-3">
+                        Hộp Quà Khen Ngợi 🎁
+                    </h3>
+                    <p class="text-gray-600 text-sm sm:text-base mb-6">
+                        Bấm nút bên dưới để nhận ngay lời khen độc quyền hoặc một lời chúc "lầy lội" từ em trai dành cho chị Tâm nhé!
+                    </p>
+
+                    <!-- Compliment Display Card -->
+                    <div id="compliment-card" class="min-h-[90px] bg-white rounded-2xl p-5 mb-6 shadow-md border border-pink-100 flex items-center justify-center transform transition-all duration-300">
+                        <p id="compliment-text" class="text-gray-800 font-medium text-base sm:text-lg italic">
+                            "Bấm nút bên dưới để khám phá xem hôm nay chị Tâm nhận được gì nào! 👇"
+                        </p>
+                    </div>
+
+                    <button onclick="getRandomCompliment()" class="py-4 px-8 bg-gradient-to-r from-deepRose via-pink-500 to-roseGold text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transform hover:-scale-105 active:scale-95 transition duration-300 inline-flex items-center gap-3 text-base sm:text-lg">
+                        <i class="fa-solid fa-wand-magic-sparkles animate-spin" style="animation-duration: 3s;"></i>
+                        <span>Nhận hoa & Quà 20/10</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="py-6 text-center text-xs text-gray-400 border-t border-pink-100/60 bg-white/30 backdrop-blur-sm">
+            <p>Made with ❤️ by Em Trai của chị Tâm • Chúc mừng ngày Phụ Nữ Việt Nam 20/10</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript Xử Lý Hiệu Ứng -->
+    <script>
+        // Danh sách lời chúc/lời khen vui vẻ, lầy lội nhưng tình cảm dành cho chị Tâm
+        const compliments = [
+            "Chị Tâm hôm nay xinh đẹp tuyệt trần, chấp mọi thể loại camera thường! ✨",
+            "Chúc chị Tâm 20/10 tiền đầy túi, tim đầy tình, và bớt ăn hiếp em trai lại nha! 😂",
+            "Cố gắng giữ vững phong độ là người phụ nữ quyền lực, giàu có và chu cấp đều đặn cho em trai nhé chị yêu! 🥂",
+            "Chúc chị Tâm luôn trẻ trung như gái 18, yêu đời, cười nhiều hơn và sớm có gấu bự chở đi chơi! 💖",
+            "Trong nhà mình, chị Tâm luôn là nóc nhà kiên cố, xinh đẹp và thông minh nhất! 👑",
+            "Hôm nay 20/10 chúc chị Tâm nhận được thật nhiều hoa, quà khủng và đặc biệt là được em trai tặng cho một tràng pháo tay cổ vũ tinh thần cực lớn! 💐",
+            "Chúc chị gái xinh đẹp của em một đời bình an, sự nghiệp thăng hoa, việc nhà nhẹ tênh, tiền tài vô như nước! 💸"
+        ];
+
+        // Nội dung bức thư gõ chữ tự động
+        const letterText = `Gửi chị Tâm thân yêu của em!
+
+Hôm nay là ngày 20/10 – ngày Phụ nữ Việt Nam, em trai của chị xin phép được "long trọng" gửi đến chị những lời chúc tốt đẹp nhất (và chân thành nhất có thể). 
+
+Cảm ơn chị vì thời gian qua đã luôn là người chị lớn chu đáo, đôi lúc hay cằn nhằn nhưng thực ra cực kỳ thương em (dù thỉnh thoảng hai chị em hay cãi nhau vì mấy chuyện nhỏ nhặt). Chúc chị Tâm của em luôn giữ vững nét đẹp rạng ngời, ngày càng thăng tiến trong công việc, lúc nào cũng cười tươi tắn và sớm đạt được mọi dự định trong tương lai.
+
+Chúc chị một ngày 20/10 ngập tràn niềm vui, hoa ngập nhà và quà ngập tay nha! 
+
+Thương chị nhiều! ❤️
+(Ký tên: Em trai ngoan hiền nhất thế giới của chị)`;
+
+        let typewriterStarted = false;
+
+        // Hàm mở hộp quà từ màn hình mở đầu
+        function openGift() {
+            // Hiệu ứng pháo giấy bung hoa lá
+            triggerConfetti();
+
+            // Ẩn màn hình mở đầu, hiện giao diện chính
+            const openingScreen = document.getElementById('opening-screen');
+            const mainContent = document.getElementById('main-content');
+
+            openingScreen.classList.add('opacity-0');
+            setTimeout(() => {
+                openingScreen.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                // Timeout nhỏ để kích hoạt hiệu ứng fade-in mượt mà
+                setTimeout(() => {
+                    mainContent.classList.remove('opacity-0');
+                    if (!typewriterStarted) {
+                        startTypewriter();
+                        typewriterStarted = true;
+                    }
+                }, 50);
+            }, 700);
+        }
+
+        // Hiệu ứng pháo giấy Confetti
+        function triggerConfetti() {
+            var count = 200;
+            var defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                colors: ['#FFD1DC', '#E06D83', '#D4AF37', '#FFF0F3']
+            });
+            fire(0.2, {
+                spread: 60,
+                colors: ['#FF9A8B', '#FF6A88', '#FFD1DC']
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                colors: ['#D4AF37', '#FFFFFF', '#E06D83']
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+        }
+
+        // Hiệu ứng gõ chữ (Typewriter effect)
+        let i = 0;
+        const speed = 35; // Tốc độ gõ chữ (ms)
+
+        function startTypewriter() {
+            const container = document.getElementById('typewriter-text');
+            const cursor = document.getElementById('cursor');
+            
+            function type() {
+                if (i < letterText.length) {
+                    if (letterText.charAt(i) === '\n') {
+                        container.innerHTML += '<br>';
+                    } else {
+                        container.innerHTML += letterText.charAt(i);
+                    }
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    // Xóa con trỏ nhấp nháy khi gõ xong
+                    if (cursor) cursor.style.display = 'none';
+                }
+            }
+            type();
+        }
+
+        // Hàm lấy ngẫu nhiên câu khen ngợi
+        function getRandomCompliment() {
+            const card = document.getElementById('compliment-card');
+            const textElement = document.getElementById('compliment-text');
+            
+            // Hiệu ứng chuyển động nhẹ khi đổi nội dung
+            card.style.transform = 'scale(0.95)';
+            card.style.opacity = '0.5';
+
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * compliments.length);
+                textElement.innerText = `"${compliments[randomIndex]}"`;
+                
+                card.style.transform = 'scale(1)';
+                card.style.opacity = '1';
+
+                // Bắn pháo giấy mini mỗi khi bấm nút nhận quà
+                confetti({
+                    particleCount: 50,
+                    spread: 70,
+                    origin: { y: 0.8 },
+                    colors: ['#E06D83', '#D4AF37', '#FFD1DC']
+                });
+            }, 150);
+        }
+    </script>
+</body>
+</html>
